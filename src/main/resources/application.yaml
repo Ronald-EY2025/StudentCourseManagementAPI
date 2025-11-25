@@ -1,0 +1,48 @@
+server:
+  port: 1900
+  servlet:
+    context-path: /StudentCourseManagementAPI
+
+spring:
+  application:
+    name: StudentCourseManagementAPI
+
+  datasource:
+    url: jdbc:h2:mem:student
+    driver-class-name: org.h2.Driver
+    username: user
+    password: user
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+        management:
+          server:
+            port: 2025  # Optional: run actuator endpoints on a separate port
+          endpoints:
+            web:
+              exposure:
+                include: health, info, metrics, env, beans  # Endpoints to expose
+                exclude: threaddump, heapdump               # Endpoints to hide
+              base-path: /manage  # Base path for actuator endpoints
+          endpoint:
+            health:
+              show-details: always  # Options: never, when-authorized, always
+            metrics:
+              enabled: true
+            shutdown:
+              enabled: false  # Disable shutdown endpoint for safety
+          info:
+            env:
+              enabled: true  # Allow /info to show environment details
+
+        info: # Custom application info for /info endpoint
+          app:
+            name: My Spring Boot App
+            version: 1.0.0
+            description: Sample Spring Boot Actuator configuration
